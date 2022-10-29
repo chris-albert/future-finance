@@ -43,7 +43,7 @@ export type State<A> = {
   value: A
   set: (f: (a: A) => A) => void
   remove: () => void
-  // focus: <B extends keyof A>(b: B) => State<A[B]>
+  focus: <B extends keyof A>(b: B) => A[B] extends Array<infer C> ? ArrayState<C> : State<A[B]>
   type: 'value'
 }
 
@@ -57,6 +57,7 @@ export type ArrayState<A> = {
   swap: (from: number, to: number) => void
   isEmpty: boolean
   focus: (index: number) => State<A>
+  map: <B>(f: (s: State<A>, i: number) => B) => Array<B>
   type: 'arrayValue'
 }
 
@@ -68,10 +69,20 @@ export const State = {
     }
   },
   value: function <A>(impl: Omit<State<A>, 'type' | 'focus'>): State<A> {
-    return {
+    const state: State<A> = {
       ...impl,
+      focus: <B extends keyof A>(b: B): A[B] extends Array<infer C> ? ArrayState<C> : State<A[B]> => {
+        const s = focus<A, B>(state, b)
+        if(Array.isArray(s.value)) {
+          return focusArray(s as unknown as State<Array<any>>, emptyStoreStateArrayOps()) as A[B] extends Array<infer C> ? ArrayState<C> : State<A[B]>
+        } else {
+          return s as A[B] extends Array<infer C> ? ArrayState<C> : State<A[B]>
+        }
+      },
       type: 'value'
     }
+
+    return state
   }
 }
 
@@ -101,7 +112,8 @@ export const useStoreState: <A>(repo: Repository<A>) => State<A> =
     return state
   }
 
-export const useStoreStateObject: <A, B extends keyof A>(state: State<A>, k: B) => State<A[B]> =
+
+export const focus: <A, B extends keyof A>(state: State<A>, k: B) => State<A[B]> =
   <A, B extends keyof A>(stateA: State<A>, key: B) => {
 
     const value = stateA.value[key]
@@ -120,6 +132,8 @@ export const useStoreStateObject: <A, B extends keyof A>(state: State<A>, k: B) 
     return State.value<A[B]>({value, set, remove})
   }
 
+export const useStoreStateObject: <A, B extends keyof A>(state: State<A>, k: B) => State<A[B]> = focus
+
 export type StoreStateArrayOpts<A> = {
   create: () => A
   clone: (a: A) => A
@@ -134,7 +148,7 @@ export const emptyStoreStateArrayOps = <A>(): StoreStateArrayOpts<A> => ({
   }
 })
 
-export const useStoreStateArray: <A>(state: State<Array<A>>, opts: StoreStateArrayOpts<A>) => ArrayState<A> =
+export const focusArray: <A>(state: State<Array<A>>, opts: StoreStateArrayOpts<A>) => ArrayState<A> =
   <A>(stateA: State<Array<A>>, opts: StoreStateArrayOpts<A>) => {
     const values: Array<A> = stateA.value
 
@@ -188,6 +202,11 @@ export const useStoreStateArray: <A>(state: State<Array<A>>, opts: StoreStateArr
       })
     }
 
+    const map = <B>(f: (s: State<A>, i: number) => B): Array<B> => {
+      return values.map((value, i) => f(focus(i), i))
+    }
+
+
     const isEmpty: boolean = values.length === 0
 
     return State.array({
@@ -199,6 +218,10 @@ export const useStoreStateArray: <A>(state: State<Array<A>>, opts: StoreStateArr
       set,
       swap,
       isEmpty,
+      map,
       focus
     })
   }
+
+export const useStoreStateArray: <A>(state: State<Array<A>>, opts: StoreStateArrayOpts<A>) => ArrayState<A> =
+  focusArray

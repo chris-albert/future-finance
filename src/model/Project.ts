@@ -19,14 +19,16 @@ export const newTrack = (size: number): Track => ({
 })
 
 export type Project = {
+  name: string
   tracks: Array<Track>
 }
 
-export const emptyProject: Project = {
+export const emptyProject = (): Project => ({
+  name: 'New Project',
   tracks: [newTrack(8)]
-}
+})
 
-let project: Project = emptyProject
+let project: Project = emptyProject()
 
 export const useProject = (): Project => {
   return project
