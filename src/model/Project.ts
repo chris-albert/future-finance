@@ -8,6 +8,14 @@ export const newStep = (): Step => ({
   on: false
 })
 
+export type Steps = {
+  steps: Array<Step>
+}
+
+export const steps = (size: number): Steps => ({
+  steps: Array(size).fill(newStep())
+})
+
 export type Track = {
   name: string
   steps: Array<Step>
@@ -25,7 +33,11 @@ export type Project = {
 
 export const emptyProject = (): Project => ({
   name: 'New Project',
-  tracks: [newTrack(8)]
+  tracks: [
+    newTrack(8),
+    newTrack(8),
+    newTrack(8)
+  ]
 })
 
 let project: Project = emptyProject()

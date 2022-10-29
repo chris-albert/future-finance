@@ -1,15 +1,14 @@
 import React from 'react'
+import {State} from "../model/State";
+import {Step} from "../model/Project";
 import {Box, Button} from "@mui/material";
-import {Step} from "./model/Project";
-import {State} from "./model/State";
 
-export type PadComponentProps = {
+export type StepComponentProps = {
   step: State<Step>
   index: number
 }
 
-export const PadComponent: React.FC<PadComponentProps> = ({index, step}) => {
-
+export const StepComponent: React.FC<StepComponentProps> = ({index, step}) => {
   const state = step.focus('on')
 
   return (
