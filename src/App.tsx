@@ -1,8 +1,32 @@
 import React from 'react';
 import './styles.scss'
-import {Nav} from "./Nav";
-import {Body} from "./Body";
-import {createTheme, ThemeProvider} from "@mui/material";
+import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+import {RootPage} from "./pages/RootPage";
+import {DataPage} from "./pages/DataPage";
+import {GroupsPage} from "./pages/GroupsPage";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <RootPage />,
+    children: [
+      {
+        path: "/",
+        element: <GroupsPage />,
+      },
+      {
+        path: "/data",
+        element: <DataPage />,
+      },
+    ]
+  },
+
+]);
+
 
 const darkTheme = createTheme({
   palette: {
@@ -16,10 +40,10 @@ const darkTheme = createTheme({
 function App() {
   return (
     <div className="App">
-      <ThemeProvider theme={darkTheme}>
-        <Nav />
-        <Body />
-      </ThemeProvider>
+        <ThemeProvider theme={darkTheme}>
+          <CssBaseline />
+          <RouterProvider router={router} />
+        </ThemeProvider>
     </div>
   );
 }
