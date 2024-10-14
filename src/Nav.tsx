@@ -2,7 +2,7 @@ import React from 'react'
 import {
   AppBar,
   Box,
-  Toolbar, Grid, Button, InputLabel, Select, MenuItem, FormControl
+  Toolbar, Grid, Button, InputLabel, Select, MenuItem, FormControl, IconButton, Avatar
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import {useAtom} from "jotai";
@@ -43,23 +43,52 @@ export const Nav: React.FC<NavProps> = () => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar
+        position="static"
+      >q
         <Toolbar>
-          <Grid container sx={{display: 'flex', justifyContent: 'space-between'}}>
-            <Grid item xs={4} sx={{display: 'flex'}}>
-              <Button
+          <Grid container sx={{
+            display: 'flex',
+            justifyContent: 'space-between'
+          }}>
+            <Grid
+              item
+              xs={4}
+              sx={{
+                display: 'flex'
+            }}
+            >
+              <Box
                 sx={{
-                  p:0,
-                  m: 0
+                  display: 'flex',
+                  alignItems: 'center'
                 }}
-                color="success"
-                variant='outlined'
-                size='small'
-                component={Link}
-                to="/"
               >
-                <img src='/favicon.ico' />
-              </Button>
+                <Button
+                  sx={{
+                    minWidth: 38,
+                    height: 38,
+                    p: 0,
+                    m: 0,
+                    display: 'flex',
+                    alignItems: 'center'
+                  }}
+                  color="success"
+                  variant='outlined'
+                  component={Link}
+                  to="/"
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center'
+                    }}
+                  >
+                    <img src='/favicon.ico' />
+                  </Box>
+
+                </Button>
+              </Box>
               <FormControl sx={{ m: 1, minWidth: 200 }}>
                 <InputLabel id="demo-simple-select-label">Exclude Before Date</InputLabel>
                 <Select

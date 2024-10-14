@@ -25,7 +25,9 @@ const router = createBrowserRouter([
     ]
   },
 
-]);
+], {
+  basename: "/future-finance",
+});
 
 
 const darkTheme = createTheme({
