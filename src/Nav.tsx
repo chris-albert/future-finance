@@ -14,7 +14,6 @@ import {
 } from "./model/atoms";
 import _ from "lodash";
 import {MultiSelectComponent} from "./components/form/MultiSelectComponent";
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
 export type NavProps = {
 }
@@ -45,7 +44,7 @@ export const Nav: React.FC<NavProps> = () => {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
         position="static"
-      >q
+      >
         <Toolbar>
           <Grid container sx={{
             display: 'flex',
@@ -84,7 +83,7 @@ export const Nav: React.FC<NavProps> = () => {
                       alignItems: 'center'
                     }}
                   >
-                    <img src='/favicon.ico' />
+                    <img src='./favicon.ico' />
                   </Box>
 
                 </Button>
