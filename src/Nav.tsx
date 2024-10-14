@@ -49,7 +49,9 @@ export const Nav: React.FC<NavProps> = () => {
             <Grid item xs={4} sx={{display: 'flex'}}>
               <Button
                 sx={{
-              }}
+                  p:0,
+                  m: 0
+                }}
                 color="success"
                 variant='outlined'
                 size='small'
