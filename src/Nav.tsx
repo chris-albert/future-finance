@@ -14,6 +14,7 @@ import {
 } from "./model/atoms";
 import _ from "lodash";
 import {MultiSelectComponent} from "./components/form/MultiSelectComponent";
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
 export type NavProps = {
 }
@@ -44,9 +45,19 @@ export const Nav: React.FC<NavProps> = () => {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-
           <Grid container sx={{display: 'flex', justifyContent: 'space-between'}}>
             <Grid item xs={4} sx={{display: 'flex'}}>
+              <Button
+                sx={{
+              }}
+                color="success"
+                variant='outlined'
+                size='small'
+                component={Link}
+                to="/"
+              >
+                <img src='/favicon.ico' />
+              </Button>
               <FormControl sx={{ m: 1, minWidth: 200 }}>
                 <InputLabel id="demo-simple-select-label">Exclude Before Date</InputLabel>
                 <Select
@@ -84,13 +95,6 @@ export const Nav: React.FC<NavProps> = () => {
                 onChange={setSelectedGroups}
                 sx={{ m: 1, minWidth: 300 }}
               />
-              <Button
-                sx={{color: 'white'}}
-                component={Link}
-                to="/groups"
-              >
-                groups
-              </Button>
             </Grid>
             <Grid item xs={4} container justifyContent="right">
               <Button
